@@ -3,45 +3,41 @@ import Head from "next/head";
 import Header from "../components/header"
 import Footer from "../components/footer"
 import CreateForm from "../components/form";
-import ReportTable from "../components/table";
+import CookieStandTable from "../components/table";
+import { useAuth } from "../contexts/auth"
+import LoginForm from "../components/loginForm";
+import useResourse from "../hooks/useResource"
 
 export default function Home() {
-
-    const [data, setData] = useState([48, 42, 30, 24, 42, 24, 36, 42, 42, 48, 36, 42, 24, 36])
-    const [storeNames, setNames] = useState([])
-    const [locations, setLocations] = useState(0)
-
-    function formFilledHandler(e){
-        e.preventDefault();
-        const storeData = {
-            location: e.target.location.value,
-            minCustomers: e.target.minimum.value,
-            maxCustomers: e.target.maximum.value,
-            avgCookies: e.target.average.value
-        }
-        setNames([...storeNames, storeData])
-        setLocations(8)
-        e.target.reset()
-    }
     
-
-    return (
-        <CookieStandAdmin formFilledHandler={formFilledHandler} data={data} storeNames={storeNames} locations={locations}/>
-    )
-}
-
-function CookieStandAdmin({ formFilledHandler, data, storeNames, locations}){
+    const { user, login } = useAuth()
     return (
         <>
             <Head>
                 <title>Cookie Stand Admin</title>
             </Head>
-            <Header />
+            {user ? 
+            <CookieStandAdmin user={user}/>
+            :
+            <LoginForm onLogin={login}/>
+        }
+        </>
+    )
+}
+
+function CookieStandAdmin({ user }){
+
+    const { resources, deleteResource } = useResourse();
+    const{ createResource } = useResourse();
+
+    return (
+        <>
+            <Header user={user}/>
             <main>
-                <CreateForm onSubmit={formFilledHandler}/>
-                <ReportTable hourly_sales={data} storeNames={storeNames}/>
+                <CreateForm user={user} createResource={createResource} />
+                <CookieStandTable stands={resources || []} deleteStand={deleteResource}/>
             </main>
-            <Footer locations={locations}/>
+            <Footer locations={resources || []}/>
         </>
     )
 }
