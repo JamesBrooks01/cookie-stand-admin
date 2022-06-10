@@ -1,26 +1,39 @@
-export default function CreateForm(props) {
+export default function CreateForm({ user, createResource }) {
+
+    function formFilledHandler(e){
+        e.preventDefault();
+        const storeData = {
+            location: e.target.location.value,
+            minimum_customers_per_hour: parseInt(e.target.minimum.value),
+            maximum_customers_per_hour: parseInt(e.target.maximum.value),
+            average_cookies_per_sale: parseFloat(e.target.average.value),
+            owner: user.id,
+        }
+        createResource(storeData)
+        e.target.reset()
+    }
+
   return (
-      <div className='w-3/5 mx-auto mt-5 rounded-lg bg-emerald-400'>
-          <p className='m-auto text-2xl text-center'>CookieStandForm</p>
-          <form onSubmit={props.onSubmit} className='p-2'>
-              <div className='block'>
-                  <label for="location" className='float-left'>Location</label>
-                  <input type="text" id="location" className='w-11/12'/>
+      <div className='w-3/5 mx-auto mt-5 rounded-lg bg-emerald-300'>
+          <form onSubmit={formFilledHandler} className='p-2'>
+              <div className='grid grid-cols-2 grid-rows-2 m-5 gap-x-5'>
+                  <label for="location" className='order-1 text-center'>ADD LOCATION</label>
+                  <button className='order-2 row-span-2 mx-5 bg-emerald-600'>CREATE STAND</button>
+                  <input type="text" id="location" className='order-3' placeholder="Cookie Stand Location"/>
               </div>
-              <div className='grid grid-cols-4 grid-rows-1 my-5 gap-x-5'>
+              <div className='grid grid-cols-3 grid-rows-1 my-5 gap-x-5'>
                   <div className="order-1 p-2 rounded-md bg-emerald-300">
-                      <label for='minimum' className='text-sm'>Minimum Customers per Hour</label>
-                      <input id='minimum' type='number' min='0'/>
+                      <label for='minimum' className='text-sm text-center'>MINIMUM CUSTOMERS PER HOUR</label>
+                      <input id='minimum' type='number' min='0' placeholder="0"/>
                   </div>
                   <div className="order-2 p-2 rounded-md bg-emerald-300">
-                      <label for='maximum' className='text-sm'>Maximum Customers per Hour</label>
-                      <input id='maximum' type='number' min='0'/>
+                      <label for='maximum' className='text-sm'>MAXIMUM CUSTOMERS PER HOUR</label>
+                      <input id='maximum' type='number' min='0' placeholder="0"/>
                   </div>
                   <div className="order-3 p-2 rounded-md bg-emerald-300">
-                      <label for='average' className='text-sm'>Average Cookies per Sale</label>
-                      <input id='average' type='number' step='0.1' min='0'/>
+                      <label for='average' className='text-sm'>AVERAGE COOKES PER SALE</label>
+                      <input id='average' type='number' step='0.1' min='0' placeholder="0"/>
                   </div>
-                      <button className='order-4 w-4/5 row-span-2 mx-5 rounded-md bg-emerald-600'>Create</button>
               </div>
           </form>
       </div>

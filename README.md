@@ -6,5 +6,5 @@
 
 ## Setup
 
-- To initialize the app, first install dependencies with `npm i`/`nmp install`
+- To initialize the app, first install dependencies with `npm i`/`npm install`
 - To run the site, use the command `npm run dev`
