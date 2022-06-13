@@ -24,7 +24,7 @@ export default function CookieStandTable({stands, deleteStand}){
         </thead>
         <tbody>
               {stands.map(stand => (
-                <ReportTableRow key={stand.key} storeData={stand} deleteStand={deleteStand} total_list={total_list}/>
+                <ReportTableRow key={stand.id} storeData={stand} deleteStand={deleteStand} total_list={total_list}/>
               ))}
         </tbody>
         <tfoot className="bg-emerald-400">
@@ -61,7 +61,6 @@ function ReportTableRow({ storeData, deleteStand, total_list }){
 
 function TotalRow({ total_list }){
   function addTotalArray(total_list){
-    console.log(total_list)
     let totalValues = []
     for (let i=0; i <= 13; i++){
       let totalColumn = 0;
